@@ -117,6 +117,8 @@ payment.addEventListener('change', (e) => {
         credit.style.display = 'block';
         paypal.style.display = 'none';
         bitcoin.style.display = 'none';
+
+
     }
 })
 
@@ -169,12 +171,52 @@ const activitiesValidator = () => {
 };
 
 
+/* function to validate card number */
+//The "Card number" field must contain a 13 - 16 digit credit card number with no dashes or spaces
+
+//IF payment EQUALS credit card:
+// RUN credit card validation
+// IF validation fails:
+// PREVENT the forms DEFAULT action
+
+const cardNumberValidator = () => {
+
+    const cardNumberValue = cardNumber.value;
+    const cardNumberIsValid = /^[0-9]{13,16}$/.test(cardNumberValue);
+    console.log(`card number is ${cardNumberValue}`);
+    return cardNumberIsValid;
+
+}
+
+/* function to validate zip code*/
+//The "Zip code" field must contain a 5 digit number.
+
+const zipValidator = () => {
+
+    const zipValue = zip.value;
+    const zipIsValid = /^[0-9]{5}$/.test(zipValue);
+    console.log(`zip value is ${zipValue}`);
+    return zipIsValid;
+
+}
+
+/* function to validate cvv code*/
+//The "Zip code" field must contain a 3 digit number.
+
+const cvvValidator = () => {
+
+    const cvvValue = cvv.value;
+    const cvvIsValid = /^[0-9]{3}$/.test(cvvValue);
+    console.log(`cvv value is ${cvvValue}`);
+    return cvvIsValid;
+
+}
 
 /*submit event listener for entire form*/
 
 form.addEventListener('submit', e => {
 
-    // IMPORTANT NOTE: Firing the submit event will refresh the page and reset the form, erasing your log statements.
+    // IMPORTANT NOTE: Firing the submit event will refresh the page and reset the form, erasing the log statements.
     // This can be prevented by calling `e.preventDefault()` here in this submit handler
     if (!usernameValidator()) {
         e.preventDefault();
@@ -184,7 +226,19 @@ form.addEventListener('submit', e => {
         e.preventDefault();
     }
 
- if (!activitiesValidator()) {
+    if (!activitiesValidator()) {
+        e.preventDefault();
+    }
+
+    if (payment.value == 'credit-card' && !cardNumberValidator()) {
+        e.preventDefault();
+    }
+
+    if (payment.value == 'credit-card' && !zipValidator()) {
+        e.preventDefault();
+    }
+
+    if (payment.value == 'credit-card' && !cvvValidator()) {
         e.preventDefault();
     }
 

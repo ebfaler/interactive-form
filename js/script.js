@@ -5,6 +5,20 @@
 
 const username = document.getElementById('name');
 username.focus();
+const nameHintTwo = document.getElementById('name-hint2');
+
+//working on exceeds requirement: programmed the name field to run a real time validation check 
+username.addEventListener('keyup', (e) => {
+    if (!usernameValidator()) {
+        // e.preventDefault();
+        nameHintTwo.style.display = "block";
+        //when i delete entry hintTwo is still displayed
+    }
+    else {
+        nameHintTwo.style.display = "none";
+        nameHint.style.display = "none";
+    }
+})
 
 /* ===================
    Job Role Section
@@ -71,7 +85,6 @@ let totalCost = 0;
 activities.addEventListener('change', (e) => {
     //using the unary plus operator + to convert the string into a number
     const cost = +e.target.getAttribute('data-cost');
-
     if (e.target.checked === true) {
         totalCost += cost;
     }
@@ -82,6 +95,25 @@ activities.addEventListener('change', (e) => {
     console.log(totalCost);
     displayCost.innerHTML = `Total: ${totalCost}`;
 })
+
+// making the focus states of the activities more accessible
+const checkboxes = document.querySelectorAll('input[type=checkbox]');
+
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('focus', (e) => {
+        e.target.parentNode.classList.add('focus');
+        console.log('checkbox tabbed');
+    })
+
+    checkbox.addEventListener('blur', (e) => {
+        e.target.parentNode.classList.remove('focus');
+        console.log('checkbox untabbed');
+    })
+
+})
+
+
+
 
 
 /* ===================
@@ -214,38 +246,81 @@ const cvvValidator = () => {
 
 /*submit event listener for entire form*/
 
+const nameHint = document.getElementById('name-hint');
+const emailHint = document.getElementById('email-hint');
+const activitiesHint = document.getElementById('activities-hint');
+const ccHint = document.getElementById('cc-hint');
+const zipHint = document.getElementById('zip-hint');
+const cvvHint = document.getElementById('cvv-hint');
+
 form.addEventListener('submit', e => {
+    //set everything to valid, remove not-valid, hide hints
+
+    function setValid(section) {
+        section.parentElement.classList.add('valid');
+        section.parentElement.classList.remove('not-valid');
+        console.log('section is valid');
+        
+        const hints = document.querySelectorAll('.hint');
+        hints.forEach(hint => {
+            hint.style.display = "none";
+        })
+
+        //create section/parentElement.getElementsByClass('hint')
+        //iterate and for each hide    
+    }
+
+    setValid(username);
+    setValid(email);
+    setValid(activities);
+    setValid(cardNumber);
+    setValid(zip);
+    setValid(cvv);
 
     // IMPORTANT NOTE: Firing the submit event will refresh the page and reset the form, erasing the log statements.
     // This can be prevented by calling `e.preventDefault()` here in this submit handler
     if (!usernameValidator()) {
         e.preventDefault();
-    }
+        nameHint.style.display = 'block';
+        //add invalid class to label and remove  valid, show hint
+        username.parentElement.classList.add('not-valid');
+        username.parentElement.classList.remove('valid');
 
+    }
     if (!emailValidator()) {
         e.preventDefault();
+        emailHint.style.display = 'block';
+        email.parentElement.classList.add('not-valid');
+        email.parentElement.classList.remove('valid');
     }
-
     if (!activitiesValidator()) {
         e.preventDefault();
+        activitiesHint.style.display = 'block';
+        activities.parentElement.classList.add('not-valid');
+        activities.parentElement.classList.remove('valid');
     }
-
     if (payment.value == 'credit-card' && !cardNumberValidator()) {
         e.preventDefault();
+        ccHint.style.display = 'block';
+        cardNumber.parentElement.classList.add('not-valid');
+        cardNumber.parentElement.classList.remove('valid');
     }
-
     if (payment.value == 'credit-card' && !zipValidator()) {
         e.preventDefault();
+        zipHint.style.display = 'block';
+        zip.parentElement.classList.add('not-valid');
+        zip.parentElement.classList.remove('valid');
     }
-
     if (payment.value == 'credit-card' && !cvvValidator()) {
         e.preventDefault();
+        cvvHint.style.display = 'block';
+        cvv.parentElement.classList.add('not-valid');
+        cvv.parentElement.classList.remove('valid');
     }
-
     // log out a message saying this particular validator prevented submission
     console.log('Submit handler is functional!');
-
 
 })
 
 
+//need to work on sections 1 and 3 of exceeds target

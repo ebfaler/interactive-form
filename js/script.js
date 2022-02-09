@@ -11,11 +11,11 @@ const nameHintTwo = document.getElementById('name-hint2');
 username.addEventListener('keyup', (e) => {
     if (!usernameValidator()) {
         // e.preventDefault();
-        nameHintTwo.style.display = "block";
+        nameHint.style.display = "block";
         //when i delete entry hintTwo is still displayed
     }
     else {
-        nameHintTwo.style.display = "none";
+        // nameHintTwo.style.display = "none";
         nameHint.style.display = "none";
     }
 })
@@ -96,6 +96,9 @@ activities.addEventListener('change', (e) => {
     displayCost.innerHTML = `Total: ${totalCost}`;
 })
 
+
+
+
 // making the focus states of the activities more accessible
 const checkboxes = document.querySelectorAll('input[type=checkbox]');
 
@@ -112,8 +115,30 @@ checkboxes.forEach(checkbox => {
 
 })
 
+//  * Event listener for checkboxes *//
+//run loop over all of the activities, check if any have the same day and time as the activity that 
+//was just checked/unchecked
 
+activities.addEventListener('change', e => {
+    const clicked = e.target;
+    console.log(clicked);
 
+    const clickedType = e.target.getAttribute('data-day-and-time');
+    console.log(clickedType);
+
+    checkboxes.forEach(checkbox => {
+        const checkboxType = checkbox.getAttribute('data-day-and-time');
+        if (checkboxType === clickedType && clicked !== checkbox) {
+            if (clicked.checked) {
+                checkbox.disabled = "true";
+            }
+            else {
+                checkbox.disabled = "false";
+            }
+        }
+
+    })
+});
 
 
 /* ===================
@@ -218,6 +243,7 @@ const cardNumberValidator = () => {
     console.log(`card number is ${cardNumberValue}`);
     return cardNumberIsValid;
 
+
 }
 
 /* function to validate zip code*/
@@ -248,8 +274,8 @@ const cvvValidator = () => {
 
 const nameHint = document.getElementById('name-hint');
 const emailHint = document.getElementById('email-hint');
-const activitiesHint = document.getElementById('activities-hint');
-const ccHint = document.getElementById('cc-hint');
+let activitiesHint = document.getElementById('activities-hint');
+let ccHint = document.getElementById('cc-hint');
 const zipHint = document.getElementById('zip-hint');
 const cvvHint = document.getElementById('cvv-hint');
 
@@ -260,7 +286,7 @@ form.addEventListener('submit', e => {
         section.parentElement.classList.add('valid');
         section.parentElement.classList.remove('not-valid');
         console.log('section is valid');
-        
+
         const hints = document.querySelectorAll('.hint');
         hints.forEach(hint => {
             hint.style.display = "none";
@@ -304,6 +330,14 @@ form.addEventListener('submit', e => {
         ccHint.style.display = 'block';
         cardNumber.parentElement.classList.add('not-valid');
         cardNumber.parentElement.classList.remove('valid');
+        const cardNumberValue = cardNumber.value;
+        // console.log(cardNumberValue.length);
+        if (cardNumberValue.length < 13) {
+            ccHint.innerHTML = 'You have entered too few numbers. Please choose between 13 - 16 digits'
+        }
+        else if (cardNumberValue > 16) {
+            ccHint.innerHTML = 'You have entered too many numbers. Please choose between 13 - 16 digits'
+        }
     }
     if (payment.value == 'credit-card' && !zipValidator()) {
         e.preventDefault();
@@ -323,4 +357,6 @@ form.addEventListener('submit', e => {
 })
 
 
-//need to work on sections 1 and 3 of exceeds target
+//need to work on sections 1 and 3 of exceeds target which include:
+//Prevent users from registering for conflicting activities
+//Conditional error message - done

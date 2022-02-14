@@ -7,15 +7,12 @@ const username = document.getElementById('name');
 username.focus();
 const nameHintTwo = document.getElementById('name-hint2');
 
-//working on exceeds requirement: programmed the name field to run a real time validation check 
+//exceeds requirement: programmed the name field to run a real time validation check 
 username.addEventListener('keyup', (e) => {
     if (!usernameValidator()) {
-        // e.preventDefault();
         nameHint.style.display = "block";
-        //when i delete entry hintTwo is still displayed
     }
     else {
-        // nameHintTwo.style.display = "none";
         nameHint.style.display = "none";
     }
 })
@@ -51,7 +48,6 @@ const designs = document.getElementById('design');
 const colors = document.getElementById('color');
 
 const colorOptions = colors.children;
-// console.log(colorOptions);
 colors.disabled = true;
 
 
@@ -80,7 +76,7 @@ const displayCost = document.getElementById('activities-cost');
 let totalCost = 0;
 
 
-//enabling the total to display the sum of selected activities
+//* Enabling the total to display the sum of selected activities  //
 
 activities.addEventListener('change', (e) => {
     //using the unary plus operator + to convert the string into a number
@@ -92,39 +88,33 @@ activities.addEventListener('change', (e) => {
         totalCost -= cost;
         // console.log('unchecked');
     }
-    console.log(totalCost);
     displayCost.innerHTML = `Total: ${totalCost}`;
 })
 
 
 
 
-// making the focus states of the activities more accessible
+//* Making the focus states of the activities more accessible *//
 const checkboxes = document.querySelectorAll('input[type=checkbox]');
 
 checkboxes.forEach(checkbox => {
     checkbox.addEventListener('focus', (e) => {
         e.target.parentNode.classList.add('focus');
-        console.log('checkbox tabbed');
     })
 
     checkbox.addEventListener('blur', (e) => {
         e.target.parentNode.classList.remove('focus');
-        console.log('checkbox untabbed');
     })
 
 })
 
 //  * Event listener for checkboxes *//
-//run loop over all of the activities, check if any have the same day and time as the activity that 
+//exceeds requirement: run loop over all of the activities, check if any have the same day and time as the activity that 
 //was just checked/unchecked
 
 activities.addEventListener('change', e => {
     const clicked = e.target;
-    console.log(clicked);
-
     const clickedType = e.target.getAttribute('data-day-and-time');
-    console.log(clickedType);
 
     checkboxes.forEach(checkbox => {
         const checkboxType = checkbox.getAttribute('data-day-and-time');
@@ -152,7 +142,7 @@ const paypal = document.getElementById('paypal');
 const bitcoin = document.getElementById('bitcoin');
 
 
-//only display the most popular payment method , then display and hide methods based on user selection
+//* Only display the most popular payment method , then display and hide methods based on user selection *//
 
 paypal.style.display = 'none';
 bitcoin.style.display = 'none';
@@ -174,8 +164,6 @@ payment.addEventListener('change', (e) => {
         credit.style.display = 'block';
         paypal.style.display = 'none';
         bitcoin.style.display = 'none';
-
-
     }
 })
 
@@ -193,84 +181,69 @@ const cvv = document.getElementById('cvv');
 const form = document.querySelector('form');
 
 
-/* function to validate name input */
+//* Function to validate name input *//
 const usernameValidator = () => {
 
     const usernameValue = username.value;
-    console.log("Name value is: ", `"${usernameValue}"`);
 
     //tests that there is at least a first name containing only letters, and allows for a middle and last name.
     const usernameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(usernameValue);
-    console.log(`Name validation test on "${usernameValue}" evaluates to ${usernameIsValid}`);
     return usernameIsValid;
 };
 
-/* function to validate email input */
+//* Function to validate email input *//
 const emailValidator = () => {
 
     const emailValue = email.value;
-    console.log("Email value is: ", `"${emailValue}"`);
-
-    //tests that there is at least a first name containing only letters, and allows for a middle and last name.
+    //tests that there is a valid email
     const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
-    console.log(`Email validation test on "${emailValue}" evaluates to ${emailIsValid}`);
     return emailIsValid;
 };
 
 
-/* function to validate activities input */
+//* Function to validate activities input *//
 const activitiesValidator = () => {
 
     const activitiesSectionIsValid = totalCost > 0;
-    console.log(`Total cost for testing is ${totalCost}`)
-    console.log(`Activities section validation test evaluates to ${activitiesSectionIsValid}`);
     return activitiesSectionIsValid;
 };
 
 
-/* function to validate card number */
+//* Function to validate card number *//
 //The "Card number" field must contain a 13 - 16 digit credit card number with no dashes or spaces
 
-//IF payment EQUALS credit card:
-// RUN credit card validation
-// IF validation fails:
-// PREVENT the forms DEFAULT action
 
 const cardNumberValidator = () => {
 
     const cardNumberValue = cardNumber.value;
     const cardNumberIsValid = /^[0-9]{13,16}$/.test(cardNumberValue);
-    console.log(`card number is ${cardNumberValue}`);
     return cardNumberIsValid;
-
 
 }
 
-/* function to validate zip code*/
+//* Function to validate zip code *//
 //The "Zip code" field must contain a 5 digit number.
 
 const zipValidator = () => {
 
     const zipValue = zip.value;
     const zipIsValid = /^[0-9]{5}$/.test(zipValue);
-    console.log(`zip value is ${zipValue}`);
     return zipIsValid;
 
 }
 
-/* function to validate cvv code*/
+//* Function to validate cvv code *//
 //The "Zip code" field must contain a 3 digit number.
 
 const cvvValidator = () => {
 
     const cvvValue = cvv.value;
     const cvvIsValid = /^[0-9]{3}$/.test(cvvValue);
-    console.log(`cvv value is ${cvvValue}`);
     return cvvIsValid;
 
 }
 
-/*submit event listener for entire form*/
+//* Submit event listener for entire form *//
 
 const nameHint = document.getElementById('name-hint');
 const emailHint = document.getElementById('email-hint');
@@ -285,7 +258,6 @@ form.addEventListener('submit', e => {
     function setValid(section) {
         section.parentElement.classList.add('valid');
         section.parentElement.classList.remove('not-valid');
-        console.log('section is valid');
 
         const hints = document.querySelectorAll('.hint');
         hints.forEach(hint => {
@@ -331,7 +303,7 @@ form.addEventListener('submit', e => {
         cardNumber.parentElement.classList.add('not-valid');
         cardNumber.parentElement.classList.remove('valid');
         const cardNumberValue = cardNumber.value;
-        // console.log(cardNumberValue.length);
+        //exceeds requirement: display a specific message based on length of card number input
         if (cardNumberValue.length < 13) {
             ccHint.innerHTML = 'You have entered too few numbers. Please choose between 13 - 16 digits'
         }
@@ -351,12 +323,5 @@ form.addEventListener('submit', e => {
         cvv.parentElement.classList.add('not-valid');
         cvv.parentElement.classList.remove('valid');
     }
-    // log out a message saying this particular validator prevented submission
-    console.log('Submit handler is functional!');
-
+   
 })
-
-
-//need to work on sections 1 and 3 of exceeds target which include:
-//Prevent users from registering for conflicting activities
-//Conditional error message - done

@@ -247,30 +247,31 @@ const cvvValidator = () => {
 
 const nameHint = document.getElementById('name-hint');
 const emailHint = document.getElementById('email-hint');
-let activitiesHint = document.getElementById('activities-hint');
+const activitiesHint = document.getElementById('activities-hint');
 let ccHint = document.getElementById('cc-hint');
 const zipHint = document.getElementById('zip-hint');
 const cvvHint = document.getElementById('cvv-hint');
 
 form.addEventListener('submit', e => {
-    //set everything to valid, remove not-valid, hide hints
+    //hide hints and set everything to valid, remove not-valid
+
+    const hints = document.querySelectorAll('.hint');
+    hints.forEach(hint => {
+        hint.style.display = "none";
+    });
+    
+    activities.classList.add('valid');
+    activities.classList.remove('not-valid');
 
     function setValid(section) {
+        console.log(section.parentElement);
         section.parentElement.classList.add('valid');
         section.parentElement.classList.remove('not-valid');
-
-        const hints = document.querySelectorAll('.hint');
-        hints.forEach(hint => {
-            hint.style.display = "none";
-        })
-
-        //create section/parentElement.getElementsByClass('hint')
-        //iterate and for each hide    
+        
     }
 
     setValid(username);
     setValid(email);
-    setValid(activities);
     setValid(cardNumber);
     setValid(zip);
     setValid(cvv);
@@ -294,8 +295,8 @@ form.addEventListener('submit', e => {
     if (!activitiesValidator()) {
         e.preventDefault();
         activitiesHint.style.display = 'block';
-        activities.parentElement.classList.add('not-valid');
-        activities.parentElement.classList.remove('valid');
+        activities.classList.add('not-valid');
+        activities.classList.remove('valid');
     }
     if (payment.value == 'credit-card' && !cardNumberValidator()) {
         e.preventDefault();
@@ -325,3 +326,5 @@ form.addEventListener('submit', e => {
     }
    
 })
+
+

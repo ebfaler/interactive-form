@@ -32,7 +32,6 @@ jobSelect.addEventListener('change',
     function (e) {
         if (e.target.value === 'other') {
             otherBox.style.display = 'block';
-            console.log('other is selected')
         }
         else {
             otherBox.style.display = 'none';
@@ -59,9 +58,11 @@ designs.addEventListener('change', (e) => {
     for (let i = 0; i < colorOptions.length; i++) {
 
         if (e.target.value == colorOptions[i].getAttribute("data-theme")) {
-            colorOptions[i].disabled = false;
+            colorOptions[i].hidden = false;
+            colorOptions[i].selected = true;
         } else {
-            colorOptions[i].disabled = true;
+            colorOptions[i].hidden = true;
+            colorOptions[i].selected = false;
         }
     }
 });
@@ -86,7 +87,6 @@ activities.addEventListener('change', (e) => {
     }
     else {
         totalCost -= cost;
-        // console.log('unchecked');
     }
     displayCost.innerHTML = `Total: ${totalCost}`;
 })
